@@ -8,5 +8,7 @@ BepInEx plugin for the PC version of BLUE REFLECTION SUN that unlocks the framer
 2. Put the DLL in plugins.
 3. Press F12 ingame to enable 1920x1080 fullscreen.
 
+Contributions/PRs welcome.
+
 1920x1080 preview:
 ![](preview.png)
