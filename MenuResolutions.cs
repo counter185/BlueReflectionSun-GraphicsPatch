@@ -21,7 +21,7 @@ namespace BlueRefSun_GraphicsPatch
 
             }
             //resolutions = Screen.resolutions;
-            maxSel = resolutionsRefreshRates.Count + 3;
+            maxSel = resolutionsRefreshRates.Count + 2;
         }
 
         public static bool fullscreen = false;
@@ -39,11 +39,10 @@ namespace BlueRefSun_GraphicsPatch
             GUI.Label(new Rect(x, y, 300, 100),      "Resolution options", textStyle);
             GUI.Label(new Rect(x, y + 20, 300, 100), "------------------------------------------------------", textStyle);
 
-            GUI.Label(new Rect(x, y + 40, 300, 100), "    Fullscreen: " + (fullscreen ? "ON" : "OFF"), textStyle);
+            GUI.Label(new Rect(x, y + 40, 300, 100), "    Fullscreen: " + (fullscreen ? "ON" : "OFF") + "     Current resolution: " + resW + "x" + resH, textStyle);
             GUI.Label(new Rect(x, y + 60, 300, 100), "    Refresh rate: " + refreshRate, textStyle);
-            GUI.Label(new Rect(x, y + 80, 300, 100), "    Current resolution: " + resW + "x" + resH, textStyle);
 
-            int yd = y + 100;
+            int yd = y + 80;
             foreach (string a in resolutionsRefreshRates.Keys)
             {
                 GUI.Label(new Rect(x, yd, 300, 100), "    " + a, textStyle);
@@ -103,12 +102,12 @@ namespace BlueRefSun_GraphicsPatch
                             refreshRate = 60;
                         }
                     }
-                    else if (selection > 2)
+                    else if (selection > 1)
                     {
-                        string[] split = resolutionsRefreshRates.ElementAt(selection - 3).Key.Split('x');
+                        string[] split = resolutionsRefreshRates.ElementAt(selection - 2).Key.Split('x');
                         resW = int.Parse(split[0]);
                         resH = int.Parse(split[1]);
-                        refreshRate = resolutionsRefreshRates.ElementAt(selection - 3).Value.Last();
+                        refreshRate = resolutionsRefreshRates.ElementAt(selection - 2).Value.Last();
                     }
                     break;
             }

@@ -22,7 +22,6 @@ namespace BlueRefSun_GraphicsPatch
             // Plugin startup logic
             Logger.LogInfo($"Plugin pl.cntrpl.bluerefsungraphicspatch is loaded!");
             Parameter.TargetFrameRateType = Parameter.FrameRateType.FPS60;
-            Screen.SetResolution(1920, 1080, true);
         }
 
         public Stack<MenuBase> menuStack = new();
