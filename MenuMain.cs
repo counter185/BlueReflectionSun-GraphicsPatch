@@ -17,7 +17,7 @@ namespace BlueRefSun_GraphicsPatch
 
             GUI.Label(new Rect(x, y + 40 + (20 * selection), 300, 100), ">", textStyle);
 
-            GUI.Label(new Rect(x, y + height - 23, 300, 100), "Up/Down: Move, Right: Confirm, F11: Close", textStyle);
+            GUI.Label(new Rect(x, y + height - 23, 300, 100), "\u2191/\u2193: Move, \u2192: Confirm, F11: Close", textStyle);
         }
 
         public override void HandleInput(KeyCode key, Plugin parent)
@@ -39,7 +39,7 @@ namespace BlueRefSun_GraphicsPatch
                             parent.AddNewScreen(new MenuResolutions());
                             break;
                         case 1:
-                            //framerate options
+                            parent.AddNewScreen(new MenuFramerates());
                             break;
                     }
                     break;

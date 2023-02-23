@@ -4,6 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System.Linq;
 
 namespace BlueRefSun_GraphicsPatch
 {
@@ -21,10 +23,48 @@ namespace BlueRefSun_GraphicsPatch
 
             // Plugin startup logic
             Logger.LogInfo($"Plugin pl.cntrpl.bluerefsungraphicspatch is loaded!");
-            Parameter.TargetFrameRateType = Parameter.FrameRateType.FPS60;
+            LoadSettings();
         }
 
         public Stack<MenuBase> menuStack = new();
+
+        public void LoadSettings()
+        {
+            try
+            {
+                string[] configFile = File.ReadAllLines("brsun-graphics-config.txt");
+                foreach (string a in configFile)
+                {
+                    if (int.TryParse(a.Split('=').Last(), out int val))
+                    {
+                        if (a.StartsWith("resolutionWidth="))
+                        {
+                            MenuResolutions.resW = val;
+                        }
+                        else if (a.StartsWith("resolutionHeight="))
+                        {
+                            MenuResolutions.resH = val;
+                        }
+                        else if (a.StartsWith("refreshRate="))
+                        {
+                            MenuResolutions.refreshRate = val;
+                        }
+                    }
+                }
+            } catch (Exception)
+            {
+                Logger.LogInfo("Failed to load config file.");
+            }
+        }
+
+        public void SaveSettings()
+        {
+            File.WriteAllLines("brsun-graphics-config.txt", new string[] { 
+                "resolutionWidth=" + MenuResolutions.resW + "\n"
+                + "resolutionHeight=" + MenuResolutions.resH + "\n"
+                + "refreshRate=" + MenuResolutions.refreshRate + "\n"
+            });
+        }
 
         public void AddNewScreen(MenuBase menu)
         {
@@ -54,12 +94,20 @@ namespace BlueRefSun_GraphicsPatch
         private void Update()
         {
             //needs to be done in update because the game likes to change this value at random times
-            Parameter.TargetFrameRateType = Parameter.FrameRateType.FPS60;
+            Parameter.TargetFrameRateType = MenuFramerates.currentFramerateMode;
 
+            //this reports wrong values:
             Resolution currentRes = Screen.currentResolution;
+            //it should report the window size. instead, it reports the size of the actual screen.
+
             if (currentRes.width != MenuResolutions.resW || currentRes.height != MenuResolutions.resH || Screen.fullScreen != MenuResolutions.fullscreen)
             {
+                if (currentRes.width != MenuResolutions.resW || currentRes.height != MenuResolutions.resH)
+                {
+                    Logger.LogInfo($"Setting resolution: {currentRes.width} -> {MenuResolutions.resW}, {currentRes.height} -> {MenuResolutions.resH}");
+                }
                 Screen.SetResolution(MenuResolutions.resW, MenuResolutions.resH, MenuResolutions.fullscreen);
+                
             }
 
             if (Input.GetKeyDown(KeyCode.F12))

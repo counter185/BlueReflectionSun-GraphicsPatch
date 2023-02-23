@@ -7,7 +7,7 @@ namespace BlueRefSun_GraphicsPatch
 {
     public class MenuResolutions : MenuBase
     {
-        Dictionary<string, HashSet<int>> resolutionsRefreshRates = new Dictionary<string, HashSet<int>>();
+        readonly Dictionary<string, HashSet<int>> resolutionsRefreshRates = new();
         public MenuResolutions()
         {
             foreach (Resolution a in Screen.resolutions)
@@ -53,7 +53,7 @@ namespace BlueRefSun_GraphicsPatch
 
             GUI.Label(new Rect(x, y + 40 + (20 * selection), 300, 100), ">", textStyle);
 
-            GUI.Label(new Rect(x, y + height - 30, 300, 100), "Up/Down: Move, Right: Set, Left: Back, F11: Close", textStyle);
+            GUI.Label(new Rect(x, y + height - 30, 300, 100), "\u2191/\u2193: Move, \u2192: Set, \u2190: Back, F11: Close", textStyle);
         }
 
         public override void HandleInput(KeyCode key, Plugin parent)
@@ -69,6 +69,7 @@ namespace BlueRefSun_GraphicsPatch
                     selection %= maxSel;
                     break;
                 case KeyCode.LeftArrow:
+                    parent.SaveSettings();
                     parent.MenuBack();
                     break;
                 case KeyCode.RightArrow:
